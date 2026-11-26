@@ -155,16 +155,18 @@ Reports include exact and overlap F1 per type, **char leak rate** (share of gold
 that would still reach the LLM), **entity leak rate**, false positives on PII-free texts, and
 latency.
 
-Rule baseline on 2,000 synthetic test texts (overlap match):
+Rule baseline on 1,000 synthetic test texts (seed 13, overlap match):
 
 | Metric | Value |
 |---|---:|
-| Micro F1 | 0.961 |
-| PERSON F1 | 0.919 |
-| ADDRESS F1 | 0.891 |
-| Char leak rate | 10.1% |
+| Micro F1 | 0.962 |
+| PERSON F1 | 0.923 |
+| ADDRESS F1 | 0.899 |
+| Char leak rate | 9.4% |
 | False positives on PII-free texts | 0% |
-| Latency p95 | < 0.2 ms per text |
+| Latency p95 | ~0.3 ms per text (laptop CPU) |
+
+Reproduce with `make eval`; the full report is written to `reports/rules.md`.
 
 These numbers are a sanity check, not a claim: the test texts come from the same templates the
 rules were written against. Names typed without capitals, names without a trigger phrase and
