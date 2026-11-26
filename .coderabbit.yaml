@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: en-US
+reviews:
+  profile: assertive
+  request_changes_workflow: false
+  high_level_summary: true
+  path_filters:
+    - "!uv.lock"
+    - "!data/**"
+    - "!reports/**"
+  path_instructions:
+    - path: "src/vi_pii_guard/domain.py"
+      instructions: >
+        Domain layer: no I/O, no logging, no third-party imports. Flag any dependency on
+        api/, recognizers/ or external packages.
+    - path: "src/vi_pii_guard/recognizers/**"
+      instructions: >
+        Check every regex for false positives on hard negatives (order ids, prices, hotlines,
+        dates that are not birth dates). Offsets must refer to the NFC text and slicing must
+        equal Span.text. New rules need positive, negative and hard-negative tests.
+    - path: "src/vi_pii_guard/validators.py"
+      instructions: >
+        Verify identifier rules against official structure (CCCD layout, tax code weights
+        31,29,23,19,17,13,7,5,3, carrier prefixes). Validators must be pure functions.
+    - path: "src/vi_pii_guard/api/**"
+      instructions: >
+        Delivery layer only. Flag any logging of request or response content, any echo of
+        original PII values in redact responses, and any client-controlled session id reuse.
+    - path: "src/vi_pii_guard/vault.py"
+      instructions: >
+        The vault stores raw PII in memory. Check thread safety, TTL, eviction, and that
+        nothing is persisted or logged.
+    - path: "tests/**"
+      instructions: >
+        Test data must be fictional. Flag anything that looks like a real person's
+        combination of name with phone, ID or address.
+    - path: "scripts/**"
+      instructions: >
+        Experiments must be reproducible: seeds fixed, parameters logged, reports written to
+        reports/. Flag metrics computed on data that overlaps the training split.
+chat:
+  auto_reply: true
