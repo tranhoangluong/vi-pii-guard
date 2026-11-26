@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Data, models and experiment outputs (regenerate them; never commit real PII)
+data/*
+!data/README.md
+models/
+reports/
+mlruns/
+mlartifacts/
+
+# Local config
+.env
+AGENTS.override.md
+.DS_Store
+.idea/
+.vscode/
